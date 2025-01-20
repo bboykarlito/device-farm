@@ -1,0 +1,21 @@
+meta {
+  name: Create device
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://127.0.0.1:5000/api/devices/create
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "New device"
+  }
+}
