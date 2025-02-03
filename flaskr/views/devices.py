@@ -1,5 +1,3 @@
-import functools
-
 from flask import Blueprint, request
 from flaskr.db import get_db
 

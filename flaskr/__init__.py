@@ -1,15 +1,20 @@
 import os
-
+from dotenv import load_dotenv
 from flask import Flask
 from . import db
-from flaskr.views import devices
+from flaskr.views import devices, user_sessions
+from flask_jwt_extended import JWTManager
 
 
 def create_app(test_config=None):
+    load_dotenv()
+
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY="dev", MONGO_URI="mongodb://localhost:27017/myTestDatabase"
+        SECRET_KEY="dev",
+        MONGO_URI=f"mongodb://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}?authSource=admin",
+        JWT_SECRET=os.getenv("JWT_SECRET"),
     )
 
     if test_config is None:
@@ -32,5 +37,7 @@ def create_app(test_config=None):
 
     db.init_app(app)
     app.register_blueprint(devices.bp)
+    app.register_blueprint(user_sessions.bp)
+    JWTManager(app)
 
     return app
