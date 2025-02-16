@@ -1,4 +1,3 @@
-from werkzeug.local import LocalProxy
 from flask import current_app, g
 from flask_pymongo import PyMongo
 

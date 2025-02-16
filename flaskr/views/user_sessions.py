@@ -19,6 +19,9 @@ def register():
     if not password:
         error = "Password is required."
 
+    if db.users.find_one({"username": username}) is not None:
+        error = "Username has alredy been taken"
+
     if error:
         return {"error": error}, 400
 
